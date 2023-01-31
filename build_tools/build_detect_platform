@@ -799,19 +799,6 @@ elif test "$USE_SSE"; then
   echo "warning: USE_SSE specified but compiler could not use LZCNT intrinsics, disabling" >&2
 fi
 
-$CXX $PLATFORM_CXXFLAGS $COMMON_FLAGS -x c++ - -o test.o 2>/dev/null <<EOF
-  #include <cstdint>
-  int main() {
-    uint64_t a = 0xffffFFFFffffFFFF;
-    __uint128_t b = __uint128_t(a) * a;
-    a = static_cast<uint64_t>(b >> 64);
-    (void)a;
-  }
-EOF
-if [ "$?" = 0 ]; then
-  COMMON_FLAGS="$COMMON_FLAGS -DHAVE_UINT128_EXTENSION"
-fi
-
 if [ "$FBCODE_BUILD" != "true" -a "$PLATFORM" = OS_LINUX ]; then
   $CXX $COMMON_FLAGS $PLATFORM_SHARED_CFLAGS -x c++ -c - -o test_dl.o 2>/dev/null <<EOF
   void dummy_func() {}

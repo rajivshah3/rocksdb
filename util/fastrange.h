@@ -24,8 +24,8 @@
 
 #include "rocksdb/rocksdb_namespace.h"
 
-#ifdef TEST_UINT128_COMPAT
-#undef HAVE_UINT128_EXTENSION
+#if defined(__SIZEOF_INT128__) && !defined(NO_UINT128_EXTENSION)
+#define HAVE_UINT128_EXTENSION
 #endif
 
 namespace ROCKSDB_NAMESPACE {
